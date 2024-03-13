@@ -71,7 +71,7 @@ Player_1.ay = 500
 tiles.setCurrentTilemap(tilemap`level1`)
 scene.cameraFollowSprite(Player_1)
 info.setLife(10)
-game.onUpdateInterval(1000, function () {
+game.onUpdateInterval(10000000, function () {
     enemy_1 = sprites.create(img`
         . . . 7 7 7 7 7 7 7 7 7 7 . . . 
         . . . 7 2 . . . . . . 2 7 . . . 
