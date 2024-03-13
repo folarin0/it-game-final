@@ -35,15 +35,12 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         `, Player_1, 100, 0)
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite2, otherSprite) {
     info.changeLifeBy(-1)
     Player_1.setVelocity(-100, 0)
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite2, otherSprite) {
-    sprites.destroy(sprite2)
-})
-sprites.onOverlap(SpriteKind.laser, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite)
+sprites.onOverlap(SpriteKind.laser, SpriteKind.Enemy, function (sprite4, otherSprite3) {
+    sprites.destroy(otherSprite3)
 })
 let enemy_1: Sprite = null
 let Player_1: Sprite = null
@@ -71,7 +68,7 @@ Player_1.ay = 500
 tiles.setCurrentTilemap(tilemap`level1`)
 scene.cameraFollowSprite(Player_1)
 info.setLife(10)
-game.onUpdateInterval(10000000, function () {
+game.onUpdateInterval(1000, function () {
     enemy_1 = sprites.create(img`
         . . . 7 7 7 7 7 7 7 7 7 7 . . . 
         . . . 7 2 . . . . . . 2 7 . . . 
