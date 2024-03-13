@@ -36,6 +36,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         `, Player_1, 100, 0)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, otherSprite) {
+    info.changeLifeBy(-1)
     Player_1.setVelocity(-100, 0)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite2, otherSprite) {
