@@ -1,5 +1,5 @@
 namespace SpriteKind {
-    export const laser = SpriteKind.create()
+    export const enemssss = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Player_1.vy == 0) {
@@ -7,9 +7,7 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    Player_1.setKind(SpriteKind.Projectile)
-    Player_1 = sprites.createProjectileFromSprite(img`
-        . . . . . . . . . . . . . . . . 
+    enemy_1 = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . 2 2 2 2 2 2 2 . . . . . 
@@ -25,17 +23,12 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        `, Player_1, 100, 0)
-    if (enemy_1.overlapsWith(Player_1)) {
-        sprites.destroy(enemy_1, effects.fire, 100)
-    }
+        . . . . . . . . . . . . . . . . 
+        `, Player_1, 50, 0)
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite2, otherSprite) {
-    Player_1.setVelocity(-100, 0)
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite3, location2) {
-    game.gameOver(false)
-    game.setGameOverEffect(false, effects.melt)
+sprites.onOverlap(SpriteKind.enemssss, SpriteKind.Player, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    sprites.destroy(enemy_1)
 })
 let enemy_1: Sprite = null
 let Player_1: Sprite = null
@@ -83,7 +76,8 @@ game.onUpdateInterval(1000, function () {
         . . . 2 7 . . . . . . 7 2 . . . 
         `, SpriteKind.Enemy)
     enemy_1.setPosition(134, 70)
-    enemy_1 = sprites.createProjectileFromSprite(img`
+    enemy_1.setKind(SpriteKind.enemssss)
+    Player_1 = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -100,6 +94,5 @@ game.onUpdateInterval(1000, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        `, enemy_1, 100, 0)
-    enemy_1.follow(Player_1, 110)
+        `, enemy_1, -500, 0)
 })
