@@ -6,17 +6,9 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         Player_1.vy = -150
     }
 })
-scene.onOverlapTile(SpriteKind.Enemy, assets.tile`myTile`, function (sprite3, location2) {
-    game.gameOver(true)
-    game.setGameOverEffect(true, effects.confetti)
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
-    game.gameOver(false)
-    game.setGameOverEffect(false, effects.melt)
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    Player_1.setKind(SpriteKind.laser)
-    enemy_1 = sprites.createProjectileFromSprite(img`
+    Player_1.setKind(SpriteKind.Projectile)
+    Player_1 = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -34,13 +26,16 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, Player_1, 100, 0)
+    if (enemy_1.overlapsWith(Player_1)) {
+        sprites.destroy(enemy_1, effects.fire, 100)
+    }
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite2, otherSprite) {
-    info.changeLifeBy(-1)
     Player_1.setVelocity(-100, 0)
 })
-sprites.onOverlap(SpriteKind.laser, SpriteKind.Enemy, function (sprite4, otherSprite3) {
-    sprites.destroy(otherSprite3)
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite3, location2) {
+    game.gameOver(false)
+    game.setGameOverEffect(false, effects.melt)
 })
 let enemy_1: Sprite = null
 let Player_1: Sprite = null

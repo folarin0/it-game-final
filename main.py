@@ -52,17 +52,12 @@ def on_a_pressed():
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
 def on_on_overlap(sprite2, otherSprite):
-    info.change_life_by(-1)
     Player_1.set_velocity(-100, 0)
 sprites.on_overlap(SpriteKind.projectile, SpriteKind.player, on_on_overlap)
 
-def on_on_overlap2(sprite22, otherSprite2):
-    sprites.destroy(sprite22)
-sprites.on_overlap(SpriteKind.projectile, SpriteKind.player, on_on_overlap2)
-
-def on_on_overlap3(sprite4, otherSprite3):
+def on_on_overlap2(sprite4, otherSprite3):
     sprites.destroy(otherSprite3)
-sprites.on_overlap(SpriteKind.laser, SpriteKind.enemy, on_on_overlap3)
+sprites.on_overlap(SpriteKind.laser, SpriteKind.enemy, on_on_overlap2)
 
 enemy_1: Sprite = None
 Player_1: Sprite = None
@@ -92,7 +87,6 @@ tiles.set_current_tilemap(tilemap("""
     level1
 """))
 scene.camera_follow_sprite(Player_1)
-info.set_life(10)
 
 def on_update_interval():
     global enemy_1
@@ -138,4 +132,4 @@ def on_update_interval():
         100,
         0)
     enemy_1.follow(Player_1, 110)
-game.on_update_interval(10000, on_update_interval)
+game.on_update_interval(1000, on_update_interval)
