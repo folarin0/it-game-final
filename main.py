@@ -1,32 +1,39 @@
-controller.up.onEvent(ControllerButtonEvent.Pressed, function on_up_pressed() {
-    if (Player_1.vy == 0) {
+def on_up_pressed():
+    if Player_1.vy == 0:
         Player_1.vy = -150
-    }
-    
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+
+def on_overlap_tile(sprite, location):
+    game.game_over(False)
+    game.set_game_over_effect(False, effects.melt)
+scene.on_overlap_tile(SpriteKind.player,
+    assets.tile("""
         myTile
-    `, function on_overlap_tile(sprite: Sprite, location: tiles.Location) {
-    game.gameOver(false)
-    game.setGameOverEffect(false, effects.melt)
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed() {
+    """),
+    on_overlap_tile)
+
+def on_a_pressed():
     Player_1.vx = 50
-})
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function on_on_overlap(sprite2: Sprite, otherSprite: Sprite) {
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
+def on_on_overlap(sprite2, otherSprite):
     sprites.destroy(sprite2)
-    info.changeLifeBy(-1)
-})
-scene.onOverlapTile(SpriteKind.Enemy, assets.tile`
+    info.change_life_by(-1)
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.player, on_on_overlap)
+
+def on_overlap_tile2(sprite3, location2):
+    game.game_over(True)
+    game.set_game_over_effect(True, effects.confetti)
+scene.on_overlap_tile(SpriteKind.enemy,
+    assets.tile("""
         myTile
-    `, function on_overlap_tile2(sprite3: Sprite, location2: tiles.Location) {
-    game.gameOver(true)
-    game.setGameOverEffect(true, effects.confetti)
-})
-let enemy_1 : Sprite = null
-let Player_1 : Sprite = null
-scene.setBackgroundColor(14)
-Player_1 = sprites.create(img`
+    """),
+    on_overlap_tile2)
+
+enemy_1: Sprite = None
+Player_1: Sprite = None
+scene.set_background_color(14)
+Player_1 = sprites.create(img("""
         . . . f f f f f f f f f f . . . 
             . . . f f . . . . . . f f . . . 
             . . . f . . . . f . . . f . . . 
@@ -43,19 +50,22 @@ Player_1 = sprites.create(img`
             . . . . . . f . . . f . . . . . 
             . . . . . f f . . . f f . . . . 
             . . . . . f f . . . f f . . . .
-    `, SpriteKind.Player)
-controller.moveSprite(Player_1, 100, 0)
+    """),
+    SpriteKind.player)
+controller.move_sprite(Player_1, 100, 0)
 Player_1.ay = 500
-tiles.setCurrentTilemap(tilemap`
+tiles.set_current_tilemap(tilemap("""
     level1
-`)
-scene.cameraFollowSprite(Player_1)
-game.onUpdate(function on_on_update() {
-    info.setLife(10)
-})
-game.onUpdateInterval(600, function on_update_interval() {
-    
-    enemy_1 = sprites.create(img`
+"""))
+scene.camera_follow_sprite(Player_1)
+
+def on_on_update():
+    info.set_life(10)
+game.on_update(on_on_update)
+
+def on_update_interval():
+    global enemy_1
+    enemy_1 = sprites.create(img("""
             . . . 7 7 7 7 7 7 7 7 7 7 . . . 
                     . . . 7 2 . . . . . . 2 7 . . . 
                     . . . 7 . . . . . . . . 7 . . . 
@@ -72,9 +82,10 @@ game.onUpdateInterval(600, function on_update_interval() {
                     . . . . 2 . . . . . . 2 . . . . 
                     . . . 7 2 . . . . . . 2 7 . . . 
                     . . . 2 7 . . . . . . 7 2 . . .
-        `, SpriteKind.Enemy)
-    enemy_1.setPosition(134, 70)
-    enemy_1 = sprites.createProjectileFromSprite(img`
+        """),
+        SpriteKind.enemy)
+    enemy_1.set_position(134, 70)
+    enemy_1 = sprites.create_projectile_from_sprite(img("""
             . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -91,6 +102,9 @@ game.onUpdateInterval(600, function on_update_interval() {
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . .
-        `, enemy_1, 100, 0)
+        """),
+        enemy_1,
+        100,
+        0)
     enemy_1.follow(Player_1, 110)
-})
+game.on_update_interval(600, on_update_interval)
