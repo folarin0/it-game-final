@@ -6,6 +6,11 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         Player_1.vy = -150
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.enemssss, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    Player_1.setPosition(16, 56)
+    info.changeLifeBy(-1)
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     enemy_1 = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
@@ -25,10 +30,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, Player_1, 50, 0)
-})
-sprites.onOverlap(SpriteKind.enemssss, SpriteKind.Player, function (sprite, otherSprite) {
-    sprites.destroy(sprite)
-    sprites.destroy(enemy_1)
 })
 let enemy_1: Sprite = null
 let Player_1: Sprite = null
@@ -76,7 +77,6 @@ game.onUpdateInterval(1000, function () {
         . . . 2 7 . . . . . . 7 2 . . . 
         `, SpriteKind.Enemy)
     enemy_1.setPosition(134, 70)
-    enemy_1.setKind(SpriteKind.enemssss)
     Player_1 = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -94,5 +94,6 @@ game.onUpdateInterval(1000, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        `, enemy_1, -500, 0)
+        `, enemy_1, 50, 50)
+    enemy_1.follow(Player_1, 110)
 })
